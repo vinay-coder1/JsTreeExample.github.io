@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Simple jsTree</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.ajax({
+                async: true,
+                type: "GET",
+                url: "https://raw.githubusercontent.com/vinay-coder1/thor/master/JsonForJsTree.json",
+                dataType: "json",
+                success: function (json) {
+                    createJSTree(json);
+                },
+
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });            
+        });
+
+       function createJSTree(jsondata) {            
+            $('#SimpleJSTree').jstree({
+                'core': {
+                    "animation" : 1,
+                     "check_callback": true,
+                     'data': jsondata
+                },
+                "plugins" : [
+                      "contextmenu", "dnd", "search",
+    "state", "types", "wholerow"
+  ],
+              "search": {
+                    "case_sensitive": false,
+                    "show_only_matches": true
+                },
+
+            });
+        }
+        $(document).ready(function () {
+            $(".search-input").keyup(function () {
+                var searchString = $(this).val();
+                $('#SimpleJSTree').jstree('search', searchString);
+            });
+        });
+    </script>
+</head>
+<body>
+    Serarch:<input id="search-input" class="search-input" />
+    <br />
+    <div id="SimpleJSTree"></div>
+</body>
+</html>
